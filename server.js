@@ -18,8 +18,6 @@ var app = express();
 var databaseUrl = "scraper";
 var collections = ["scrapedData"];
 
-
-
 // Hook mongojs configuration to the db variable
 var db = mongojs(databaseUrl, collections);
 db.on("error", function(error) {
@@ -53,16 +51,16 @@ app.get("/scrape", function(req, res) {
     // Load the html body from axios into cheerio
     var $ = cheerio.load(response.data);
     // For each element with a "title" class
-    $(".title").each(function(i, element) {
+    $(".headline").each(function(i, element) {
       // Save the text and href of each link enclosed in the current element
-      var title = $(element).children("a").text();
+      var headline = $(element).children("a").text();
       var link = $(element).children("a").attr("href");
 
       // If this found element had both a title and a link
-      if (title && link) {
+      if (headline && link) {
         // Insert the data in the scrapedData db
         db.scrapedData.insert({
-          title: title,
+          headline: headline,
           link: link
         },
         function(err, inserted) {
