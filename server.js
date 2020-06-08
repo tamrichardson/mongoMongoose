@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-mongoose.connect("mongodb://localhost/headline", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/headline", { useNewUrlParser: true });
 
 console.log("Mongoose connection");
 
