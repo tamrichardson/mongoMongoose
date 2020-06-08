@@ -43,6 +43,7 @@ https://mongo-mongoose-trich.herokuapp.com/
 
 
 <h1>Tech used</h1>
+
 * Javascript
 * Jquery
 * HTML
