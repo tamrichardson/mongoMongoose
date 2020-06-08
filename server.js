@@ -25,6 +25,16 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/headline", { us
 
 console.log("Mongoose connection");
 
+app.get("/", function(req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({})
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
 // Scrape data from one site and place it into the mongodb db
 app.get("/scrape", function(req, res) {
   // Make a request via axios for the news section of `ycombinator`
@@ -91,16 +101,7 @@ app.post("/articles/:id", function(req, res) {
     res.json(err);
   })
 })
-app.get("/", function(req, res) {
-  // Grab every document in the Articles collection
-  db.Article.find({})
-    .then(function(dbArticle) {
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
+
 });
 // Listen on port 3000
 app.listen(PORT, function() {
