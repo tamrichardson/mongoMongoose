@@ -91,6 +91,17 @@ app.post("/articles/:id", function(req, res) {
     res.json(err);
   })
 })
+app.get("/", function(req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({})
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
 // Listen on port 3000
 app.listen(PORT, function() {
   console.log("App running on port 3000!");
