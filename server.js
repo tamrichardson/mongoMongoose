@@ -9,7 +9,7 @@ var cheerio = require("cheerio");
 
 // Require all models as db
 var db = require("./models/Index");
-var PORT = process.env.PORT || 3000
+var PORT = process.env.PORT || 3000;
 // Initialize Express
 var app = express();
 //Configure Middleware
@@ -32,11 +32,13 @@ app.get("/scrape", function(req, res) {
     // Load the html body from axios into cheerio
     var $ = cheerio.load(response.data);
     // For each element with a "title" class
-    $("div.headline").each(function(i, element) {
-      // Save the text and href of each link enclosed in the current element
+    $("div.headline").each(function(i) {
+      if (i > 20)
+{
+  return
+}      // Save the text and href of each link enclosed in the current element
       var result = {};
 
-  
       result.title= $(this)
       .children("a")
       .text();
@@ -90,6 +92,6 @@ app.post("/articles/:id", function(req, res) {
   })
 })
 // Listen on port 3000
-app.listen(3000, function() {
+app.listen(PORT, function() {
   console.log("App running on port 3000!");
 });
