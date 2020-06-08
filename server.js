@@ -8,7 +8,7 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 // Require all models as db
-var db = require("./models/Index");
+var db = require("./models/index");
 var PORT = process.env.PORT || 3000;
 // Initialize Express
 var app = express();
