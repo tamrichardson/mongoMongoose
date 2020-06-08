@@ -8,8 +8,8 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 // Require all models as db
-var db = require("./models");
-var PORT = 3000;
+var db = require("./models/Index");
+var PORT = process.env.PORT || 3000
 // Initialize Express
 var app = express();
 //Configure Middleware
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/headline", { useNewUrlParser: true });
 
 console.log("Mongoose connection");
 
@@ -35,6 +35,7 @@ app.get("/scrape", function(req, res) {
     $("div.headline").each(function(i, element) {
       // Save the text and href of each link enclosed in the current element
       var result = {};
+
   
       result.title= $(this)
       .children("a")
@@ -77,7 +78,7 @@ app.get("/articles/:id", function(req, res) {
     })
 })
 app.post("/articles/:id", function(req, res) {
-  db.Article.create(req.body)
+  db.Note.create(req.body)
   .then(function(dbNote) {
     return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
   })
