@@ -5,9 +5,9 @@ var mongoose = require('mongoose');
 // Require axios and cheerio. This makes the scraping possible
 var axios = require('axios');
 var cheerio = require('cheerio');
-​
+
 // Require all models as db
-var db = require('./models');
+var db = require('./models')
 var PORT = process.env.PORT || 3000;
 // Initialize Express
 var app = express();
@@ -18,15 +18,12 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
-​
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/headline', {
 	useCreateIndex: true,
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
-​
 // console.log('Mongoose connection');
-​
 app.get('/', function (req, res) {
 	// Grab every document in the Articles collection
 	db.Article.find({})
@@ -51,11 +48,8 @@ app.get('/scrape', function (req, res) {
 			// 	return;
 			// } // Save the text and href of each link enclosed in the current element
 			var result = {};
-​
 			result.title = $(this).children('a').text();
-​
 			result.link = $(this).children('a').attr('href');
-​
 			db.Article.create(result)
 				.then(function (dbArticle) {
 					console.log(dbArticle);
@@ -65,7 +59,6 @@ app.get('/scrape', function (req, res) {
 				});
 		});
 	});
-​
 	// Send a "Scrape Complete" message to the browser
 	res.send('Scrape Complete');
 });
@@ -78,7 +71,6 @@ app.get('/articles', function (req, res) {
 			res.json(err);
 		});
 });
-​
 app.get('/articles/:id', function (req, res) {
 	db.Article.find({ _id: req.params.id })
 		.populate('note')
@@ -101,7 +93,6 @@ app.post('/articles/:id', function (req, res) {
 			res.json(err);
 		});
 });
-​
 // Listen on port 3000
 app.listen(PORT, function () {
 	console.log('App running on' + PORT);
